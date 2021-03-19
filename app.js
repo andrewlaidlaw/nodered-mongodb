@@ -21,12 +21,13 @@ const hostname = "0.0.0.0";
 app.get('/', (req, res) => {
     // You should only see this if something has gone wrong
     output = "Bollocks";
-    MongoClient.connect(url, function (err, db) {
+    output = MongoClient.connect(url, function (err, db) {
         if (err)
             throw err;
         console.log("Database " + mongoDatabase + " exists.");
         output = "Database " + mongoDatabase + " exists.";
         db.close();
+        return output;
     });
   
     res.send(output)
@@ -45,7 +46,7 @@ app.listen(port, hostname, () => {
 })
 
 function mongoConnect() {
-    MongoClient.connect(url, function (err, db) {
+    output = MongoClient.connect(url, function (err, db) {
         if (err)
             throw err;
         console.log("Database " + mongoDatabase + " exists.");
@@ -53,4 +54,5 @@ function mongoConnect() {
         db.close();
         return output;
     });
+    return output;
 }
