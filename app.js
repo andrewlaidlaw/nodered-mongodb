@@ -12,7 +12,7 @@ const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
 
 // Build MongoDB connection string
-var mongourl = "mongodb://" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
+var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 
 const app = express();
 const port = 8080;
@@ -23,15 +23,19 @@ app.get('/', (req, res) => {
     output = "Bollocks";
     mongoConnect();
   
-  res.send(output)
+    res.send(output)
 })
 
 app.get('/healthz', (req, res) => {
-  res.send('ok');
+    res.send('ok');
 })
 
+app.get('/url', req, res) => {
+    res.send(url);
+}
+
 app.listen(port, hostname, () => {
-  console.log(`MongoDB app listening at http://${hostname}:${port}`)
+    console.log(`MongoDB app listening at http://${hostname}:${port}`)
 })
 
 function mongoConnect() {
