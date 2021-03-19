@@ -1,0 +1,26 @@
+{
+  "name": "mongodb-nodejs",
+  "version": "0.0.1",
+  "description": "Node.js application with MongoDB connection for OpenShift",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "3.6.5"
+  },
+  "engine": {
+    "node": "*",
+    "npm": "*"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewlaidlaw/example-nodejs.git"
+  },
+  "author": "Andrew Laidlaw <andrew.laidlaw@uk.ibm.com>",
+  "bugs": {
+    "url": "https://github.com/andrewlaidlaw/example-nodejs/issues"
+  },
+  "homepage": "https://github.com/andrewlaidlaw/example-nodejs"
+}
