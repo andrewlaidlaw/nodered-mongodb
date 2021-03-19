@@ -21,7 +21,7 @@ const hostname = "0.0.0.0";
 app.get('/', (req, res) => {
     // You should only see this if something has gone wrong
     output = "Bollocks";
-    mongoConnect();
+    output = mongoConnect();
   
     res.send(output)
 })
@@ -45,5 +45,6 @@ function mongoConnect() {
         console.log("Database " + mongoDatabase + " exists.");
         output = "Database " + mongoDatabase + " exists.";
         db.close();
+        return output;
     });
 }
