@@ -21,7 +21,13 @@ const hostname = "0.0.0.0";
 app.get('/', (req, res) => {
     // You should only see this if something has gone wrong
     output = "Bollocks";
-    output = mongoConnect();
+    MongoClient.connect(url, function (err, db) {
+        if (err)
+            throw err;
+        console.log("Database " + mongoDatabase + " exists.");
+        output = "Database " + mongoDatabase + " exists.";
+        db.close();
+    });
   
     res.send(output)
 })
