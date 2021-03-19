@@ -1,0 +1,6 @@
+{
+    "name": "nodejs-mongodb",
+    "description": "Node.js with MongoDB application for OpenShift.",
+    "repository": "https://github.com/andrewlaidlaw/nodered-mongodb",
+    "keywords": ["node", "express", "static", "demo"]
+}
