@@ -30,7 +30,7 @@ app.get('/healthz', (req, res) => {
     res.send('ok');
 })
 
-app.get('/url',() req, res) => {
+app.get('/url', (req, res) => {
     res.send(url);
 })
 
