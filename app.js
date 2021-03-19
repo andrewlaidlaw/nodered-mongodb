@@ -22,10 +22,9 @@ app.get('/', (req, res) => {
     // You should only see this if something has gone wrong
     output = "Bollocks";
     output = MongoClient.connect(url, function (err, db) {
-        if (err)
-            throw err;
-        console.log("Database " + mongoDatabase + " exists.");
+        if (err) throw err;
         output = "Database " + mongoDatabase + " exists.";
+        console.log(output);
         db.close();
         return output;
     });
@@ -44,15 +43,3 @@ app.get('/url', (req, res) => {
 app.listen(port, hostname, () => {
     console.log(`MongoDB app listening at http://${hostname}:${port}`)
 })
-
-function mongoConnect() {
-    output = MongoClient.connect(url, function (err, db) {
-        if (err)
-            throw err;
-        console.log("Database " + mongoDatabase + " exists.");
-        output = "Database " + mongoDatabase + " exists.";
-        db.close();
-        return output;
-    });
-    return output;
-}
