@@ -19,19 +19,17 @@ const port = 8080;
 const hostname = "0.0.0.0";
 
 app.get('/', (req, res) => {
-    output = "Result: ";
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
-        dbo = db.db(mongoDatabase);
-        var cursor = dbo.collection("performance").find();
-        cursor.each(function(err, item) {
-            if(item != null) {
-                output = output + ","+ item;
-            }
+        var dbo = db.db(mongoDatabase)
+        dbo.collection("performance").findOne({},function(err,result) {
+            if (err) throw err;
+            console.log(result);
         });
-    })
-    db.close(); 
-    res.send(output);
+        db.close();
+    });
+  
+    res.send("done");
 })
 
 app.get('/healthz', (req, res) => {
