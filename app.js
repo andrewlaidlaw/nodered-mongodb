@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
     output = "Result: ";
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
-        var cursor = db.collection("performance").find();
+        dbo = db.db(mongoDatabase);
+        var cursor = dbo.collection("performance").find();
         cursor.each(function(err, item) {
             if(item != null) {
                 output = output + ","+ item;
