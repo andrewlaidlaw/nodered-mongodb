@@ -21,7 +21,8 @@ const hostname = "0.0.0.0";
 app.get('/', (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
-        db.collection("performance").findOne({},function(err,result) {
+        var dbo = db.db(mongoDatabase)
+        dbo.collection("performance").findOne({},function(err,result) {
             if (err) throw err;
             console.log(result.name);
         });
