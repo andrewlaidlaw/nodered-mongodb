@@ -19,14 +19,13 @@ const port = 8080;
 const hostname = "0.0.0.0";
 
 app.get('/', (req, res) => {
-    // You should only see this if something has gone wrong
-    output = "Bollocks";
-    output = MongoClient.connect(url, function (err, db) {
+    MongoClient.connect(url, function (err, db) {
         if (err) throw err;
-        output = "Database " + mongoDatabase + " exists.";
-        console.log(output);
+        db.collection("performance").findOne({},function(err,result) {
+            if (err) throw err;
+            console.log(result.name);
+        });
         db.close();
-        return output;
     });
   
     res.send(output)
