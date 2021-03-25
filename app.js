@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
         var dbo = db.db(mongoDatabase)
         dbo.collection("performance").findOne({},function(err,result) {
             if (err) throw err;
-            console.log(result.name);
+            console.log(result);
         });
         db.close();
     });
@@ -41,7 +41,7 @@ app.get('/url', (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-    var output = "This is the value: " + req.value;
+    var output = "This is the value: " + req.params.value;
     res.send(output);
 })
 
