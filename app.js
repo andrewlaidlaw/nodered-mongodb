@@ -19,17 +19,24 @@ const port = 8080;
 const hostname = "0.0.0.0";
 
 app.get('/', (req, res) => {
+    output = "";
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
-        var dbo = db.db(mongoDatabase)
-        dbo.collection("performance").findOne({},function(err,result) {
-            if (err) throw err;
-            console.log(result);
+        var cursor = db.collection("performance").find();
+        cursor.each(function(err, item) {
+            if(item != null) {
+                output = output + ","+ item;
+            }
         });
+        
+        })
+        .then(
+            
+        );
         db.close();
     });
   
-    res.send("done");
+    res.send(output);
 })
 
 app.get('/healthz', (req, res) => {
@@ -41,7 +48,7 @@ app.get('/url', (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-    var output = "This is the value: " + req.params.value;
+    var output = "This is the value: " + req.query.value;
     res.send(output);
 })
 
