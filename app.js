@@ -28,11 +28,7 @@ app.get('/', (req, res) => {
                 output = output + ","+ item;
             }
         });
-        
         })
-        .then(
-            
-        );
         db.close();
     });
   
