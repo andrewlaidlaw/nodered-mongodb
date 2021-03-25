@@ -29,7 +29,7 @@ app.get('/', (req, res) => {
         db.close();
     });
   
-    res.send(output)
+    res.send("done");
 })
 
 app.get('/healthz', (req, res) => {
@@ -38,6 +38,11 @@ app.get('/healthz', (req, res) => {
 
 app.get('/url', (req, res) => {
     res.send(url);
+})
+
+app.get('/test', (req, res) => {
+    var output = "This is the value: " + req.value;
+    res.send(output);
 })
 
 app.listen(port, hostname, () => {
