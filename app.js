@@ -19,7 +19,7 @@ const port = 8080;
 const hostname = "0.0.0.0";
 
 app.get('/', (req, res) => {
-    output = "";
+    output = "Result: ";
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var cursor = db.collection("performance").find();
@@ -28,10 +28,8 @@ app.get('/', (req, res) => {
                 output = output + ","+ item;
             }
         });
-        })
-        db.close();
-    });
-  
+    })
+    db.close(); 
     res.send(output);
 })
 
