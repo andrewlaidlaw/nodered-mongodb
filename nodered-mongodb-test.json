@@ -13,7 +13,7 @@
         "topology": "direct",
         "connectOptions": "",
         "port": "27017",
-        "db": "${database-name}",
+        "db": "performance-figures",
         "name": "MongoDB"
     },
     {
