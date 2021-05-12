@@ -27,7 +27,7 @@
         "id": "a81d1f85.75037",
         "type": "ui_base",
         "theme": {
-            "name": "theme-light",
+            "name": "theme-dark",
             "lightTheme": {
                 "default": "#0094CE",
                 "baseColor": "#0094CE",
@@ -37,9 +37,10 @@
             },
             "darkTheme": {
                 "default": "#097479",
-                "baseColor": "#097479",
+                "baseColor": "#0080ff",
                 "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
-                "edited": false
+                "edited": true,
+                "reset": false
             },
             "customTheme": {
                 "name": "Untitled Theme 1",
@@ -49,16 +50,16 @@
             },
             "themeState": {
                 "base-color": {
-                    "default": "#0094CE",
-                    "value": "#0094CE",
-                    "edited": false
+                    "default": "#097479",
+                    "value": "#0080ff",
+                    "edited": true
                 },
                 "page-titlebar-backgroundColor": {
-                    "value": "#0094CE",
+                    "value": "#0080ff",
                     "edited": false
                 },
                 "page-backgroundColor": {
-                    "value": "#fafafa",
+                    "value": "#111111",
                     "edited": false
                 },
                 "page-sidebar-backgroundColor": {
@@ -66,27 +67,27 @@
                     "edited": false
                 },
                 "group-textColor": {
-                    "value": "#1bbfff",
+                    "value": "#4da6ff",
                     "edited": false
                 },
                 "group-borderColor": {
-                    "value": "#ffffff",
+                    "value": "#555555",
                     "edited": false
                 },
                 "group-backgroundColor": {
-                    "value": "#ffffff",
+                    "value": "#333333",
                     "edited": false
                 },
                 "widget-textColor": {
-                    "value": "#111111",
+                    "value": "#eeeeee",
                     "edited": false
                 },
                 "widget-backgroundColor": {
-                    "value": "#0094ce",
+                    "value": "#0080ff",
                     "edited": false
                 },
                 "widget-borderColor": {
-                    "value": "#ffffff",
+                    "value": "#333333",
                     "edited": false
                 },
                 "base-font": {
@@ -101,21 +102,21 @@
             }
         },
         "site": {
-            "name": "Node-RED Dashboard",
+            "name": "Performance Figures",
             "hideToolbar": "false",
             "allowSwipe": "false",
             "lockMenu": "false",
-            "allowTempTheme": "true",
+            "allowTempTheme": "false",
             "dateFormat": "DD/MM/YYYY",
             "sizes": {
                 "sx": 48,
                 "sy": 48,
-                "gx": 6,
-                "gy": 6,
-                "cx": 6,
-                "cy": 6,
-                "px": 0,
-                "py": 0
+                "gx": 12,
+                "gy": 12,
+                "cx": 12,
+                "cy": 12,
+                "px": 12,
+                "py": 12
             }
         }
     },
@@ -139,16 +140,6 @@
         "collapse": false
     },
     {
-        "id": "89508dce.32bbc",
-        "type": "ui_group",
-        "name": "Status",
-        "tab": "5a8f07a7.8ab2d8",
-        "order": 4,
-        "disp": true,
-        "width": "12",
-        "collapse": false
-    },
-    {
         "id": "77a2ba55.5a3bb4",
         "type": "ui_group",
         "name": "Output",
@@ -159,14 +150,13 @@
         "collapse": false
     },
     {
-        "id": "ce561a81.242ae",
-        "type": "ui_group",
-        "name": "Filters",
-        "tab": "5a8f07a7.8ab2d8",
+        "id": "15cf749e.c6680b",
+        "type": "ui_tab",
+        "name": "Status",
+        "icon": "announcement",
         "order": 2,
-        "disp": true,
-        "width": "12",
-        "collapse": false
+        "disabled": false,
+        "hidden": false
     },
     {
         "id": "885de229.3d242",
@@ -641,52 +631,6 @@
         ]
     },
     {
-        "id": "3563dcb.d634ba4",
-        "type": "status",
-        "z": "e134af0e.019898",
-        "name": "",
-        "scope": null,
-        "x": 80,
-        "y": 720,
-        "wires": [
-            [
-                "59b7a652.4dc3b"
-            ]
-        ]
-    },
-    {
-        "id": "59b7a652.4dc3b",
-        "type": "ui_text",
-        "z": "e134af0e.019898",
-        "group": "89508dce.32bbc",
-        "order": 1,
-        "width": "12",
-        "height": "1",
-        "name": "",
-        "label": "All nodes:",
-        "format": "{{msg.payload}}",
-        "layout": "row-left",
-        "x": 330,
-        "y": 720,
-        "wires": []
-    },
-    {
-        "id": "24b29c44.6796ac",
-        "type": "debug",
-        "z": "2cccc0c0.23686",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 850,
-        "y": 300,
-        "wires": []
-    },
-    {
         "id": "7ba6b497.307acc",
         "type": "http request",
         "z": "2cccc0c0.23686",
@@ -719,8 +663,8 @@
         "columns": [],
         "outputs": 0,
         "cts": false,
-        "x": 1330,
-        "y": 140,
+        "x": 690,
+        "y": 260,
         "wires": []
     },
     {
@@ -738,6 +682,11 @@
         "passthru": true,
         "multiple": false,
         "options": [
+            {
+                "label": "Any",
+                "value": "",
+                "type": "str"
+            },
             {
                 "label": "POWER4",
                 "value": "p4_",
@@ -1029,7 +978,7 @@
         "y": 140,
         "wires": [
             [
-                "6e4accfc.d29da4"
+                "c626664d.94bc4"
             ]
         ]
     },
@@ -1049,8 +998,8 @@
         "timeout": "",
         "count": "",
         "reduceRight": false,
-        "x": 1210,
-        "y": 140,
+        "x": 970,
+        "y": 200,
         "wires": [
             [
                 "8f21e2d.f283da"
@@ -1076,11 +1025,29 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1070,
-        "y": 140,
+        "x": 830,
+        "y": 200,
         "wires": [
             [
                 "faae8f24.c9178"
+            ]
+        ]
+    },
+    {
+        "id": "c626664d.94bc4",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "if (typeof msg.payload.rperfSMT1 == 'undefined') {\n    msg.payload.rperfSMT1 = \" \"\n}\nif (typeof msg.payload.rperfSMT2 == 'undefined') {\n    msg.payload.rperfSMT2 = \" \"\n}\nif (typeof msg.payload.rperfSMT4 == 'undefined') {\n    msg.payload.rperfSMT4 = \" \"\n}\nif (typeof msg.payload.rperfSMT8 == 'undefined') {\n    msg.payload.rperfSMT8 = \" \"\n}\nif (typeof msg.payload.CPW == 'undefined') {\n    msg.payload.CPW = \" \"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 680,
+        "y": 200,
+        "wires": [
+            [
+                "6e4accfc.d29da4"
             ]
         ]
     }
