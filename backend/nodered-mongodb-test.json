@@ -7,6 +7,16 @@
         "info": ""
     },
     {
+        "id": "e8ab76b0.450f8",
+        "type": "mongodb",
+        "hostname": "mongodb-performance-figures",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "performance-figures",
+        "name": "MongoDB"
+    },
+    {
         "id": "885de229.3d242",
         "type": "inject",
         "z": "e134af0e.019898",
@@ -89,9 +99,7 @@
         "x": 320,
         "y": 200,
         "wires": [
-            [
-                "f524098a.a4879"
-            ]
+            []
         ]
     },
     {
@@ -119,7 +127,7 @@
         "y": 200,
         "wires": [
             [
-                "a4901ea0.19b9c"
+                "691242c9.ef442c"
             ]
         ]
     },
@@ -479,13 +487,21 @@
         ]
     },
     {
-        "id": "e8ab76b0.450f8",
-        "type": "mongodb",
-        "hostname": "mongodb-performance-figures",
-        "topology": "direct",
-        "connectOptions": "",
-        "port": "27017",
-        "db": "performance-figures",
-        "name": "MongoDB"
+        "id": "691242c9.ef442c",
+        "type": "file in",
+        "z": "e134af0e.019898",
+        "name": "",
+        "filename": "perf.csv",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "x": 320,
+        "y": 140,
+        "wires": [
+            [
+                "f524098a.a4879"
+            ]
+        ]
     }
 ]
