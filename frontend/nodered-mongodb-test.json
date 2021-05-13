@@ -7,6 +7,131 @@
         "info": ""
     },
     {
+        "id": "77a2ba55.5a3bb4",
+        "type": "ui_group",
+        "name": "Output",
+        "tab": "5a8f07a7.8ab2d8",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "96006dc4.d04078",
+        "type": "ui_group",
+        "name": "Input",
+        "tab": "5a8f07a7.8ab2d8",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "5a8f07a7.8ab2d8",
+        "type": "ui_tab",
+        "name": "Performance Lookup",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "56586d0b.fa8e04",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0000ff",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0000ff",
+                    "edited": true
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0000ff",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#4d4dff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0000ff",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Performance figures lookup",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 80,
+                "sy": 80,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 6,
+                "py": 6
+            }
+        }
+    },
+    {
         "id": "7ba6b497.307acc",
         "type": "http request",
         "z": "2cccc0c0.23686",
@@ -521,34 +646,5 @@
                 "7ba6b497.307acc"
             ]
         ]
-    },
-    {
-        "id": "77a2ba55.5a3bb4",
-        "type": "ui_group",
-        "name": "Output",
-        "tab": "5a8f07a7.8ab2d8",
-        "order": 3,
-        "disp": true,
-        "width": "12",
-        "collapse": false
-    },
-    {
-        "id": "96006dc4.d04078",
-        "type": "ui_group",
-        "name": "Input",
-        "tab": "5a8f07a7.8ab2d8",
-        "order": 1,
-        "disp": true,
-        "width": "12",
-        "collapse": false
-    },
-    {
-        "id": "5a8f07a7.8ab2d8",
-        "type": "ui_tab",
-        "name": "Performance Lookup",
-        "icon": "dashboard",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
     }
 ]
