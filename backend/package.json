@@ -1,0 +1,21 @@
+{
+  "name": "performance-lookup-backend",
+  "version": "1.0.1",
+  "description": "Node-RED based backend for performance figures lookup",
+  "dependencies": {
+    "node-red": "1.2.5",
+    "node-red-node-mongodb": "0.2.5"
+  },
+  "scripts": {
+      "start": "node --max-old-space-size=384 node_modules/node-red/red.js nodered-mongodb-test.json --port 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewlaidlaw/nodered-mongodb.git"
+  },
+  "author": "Andrew Laidlaw <andrew.laidlaw@uk.ibm.com>",
+  "bugs": {
+    "url": "https://github.com/andrewlaidlaw/nodered-mongodb/issues"
+  },
+  "homepage": "https://github.com/andrewlaidlaw/nodered-mongodb"
+}

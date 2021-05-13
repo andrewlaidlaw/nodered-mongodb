@@ -1,0 +1,554 @@
+[
+    {
+        "id": "2cccc0c0.23686",
+        "type": "tab",
+        "label": "Frontend",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "7ba6b497.307acc",
+        "type": "http request",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "query",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 870,
+        "y": 60,
+        "wires": [
+            [
+                "a18c44ba.bf22d8"
+            ]
+        ]
+    },
+    {
+        "id": "8f21e2d.f283da",
+        "type": "ui_table",
+        "z": "2cccc0c0.23686",
+        "group": "77a2ba55.5a3bb4",
+        "name": "",
+        "order": 1,
+        "width": "12",
+        "height": "6",
+        "columns": [],
+        "outputs": 1,
+        "cts": true,
+        "x": 670,
+        "y": 180,
+        "wires": [
+            [
+                "e6ec3d90.ae276"
+            ]
+        ]
+    },
+    {
+        "id": "e4d5564e.b90b4",
+        "type": "ui_dropdown",
+        "z": "2cccc0c0.23686",
+        "name": "generation",
+        "label": "Generation",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "96006dc4.d04078",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Any",
+                "value": "",
+                "type": "str"
+            },
+            {
+                "label": "POWER4",
+                "value": "p4_",
+                "type": "str"
+            },
+            {
+                "label": "POWER4+",
+                "value": "p4+",
+                "type": "str"
+            },
+            {
+                "label": "POWER5",
+                "value": "p5_",
+                "type": "str"
+            },
+            {
+                "label": "POWER5+",
+                "value": "p5+",
+                "type": "str"
+            },
+            {
+                "label": "POWER6",
+                "value": "p6_",
+                "type": "str"
+            },
+            {
+                "label": "POWER6+",
+                "value": "p6+",
+                "type": "str"
+            },
+            {
+                "label": "POWER7",
+                "value": "p7_",
+                "type": "str"
+            },
+            {
+                "label": "POWER7+",
+                "value": "p7+",
+                "type": "str"
+            },
+            {
+                "label": "POWER8",
+                "value": "p8",
+                "type": "str"
+            },
+            {
+                "label": "POWER9",
+                "value": "p9",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 90,
+        "y": 60,
+        "wires": [
+            [
+                "37642d4.e589c52"
+            ]
+        ]
+    },
+    {
+        "id": "839b325b.8cd358",
+        "type": "join",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": true,
+        "timeout": "",
+        "count": "1",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 510,
+        "y": 60,
+        "wires": [
+            [
+                "30af4fc1.8df87"
+            ]
+        ]
+    },
+    {
+        "id": "37642d4.e589c52",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var generation = msg.payload\nmsg.payload = {}\nmsg.payload.architecture = generation\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 300,
+        "y": 60,
+        "wires": [
+            [
+                "839b325b.8cd358"
+            ]
+        ]
+    },
+    {
+        "id": "938e4a8.8c60638",
+        "type": "ui_text_input",
+        "z": "2cccc0c0.23686",
+        "name": "Machine Type",
+        "label": "Machine Type",
+        "tooltip": "ie 9117",
+        "group": "96006dc4.d04078",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 100,
+        "y": 100,
+        "wires": [
+            [
+                "11cca8d2.10bb47"
+            ]
+        ]
+    },
+    {
+        "id": "11cca8d2.10bb47",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var machineType = msg.payload\nmsg.payload = {}\nmsg.payload.model = machineType\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 300,
+        "y": 100,
+        "wires": [
+            [
+                "839b325b.8cd358"
+            ]
+        ]
+    },
+    {
+        "id": "89a17bfc.6ac628",
+        "type": "ui_text_input",
+        "z": "2cccc0c0.23686",
+        "name": "Model",
+        "label": "Model",
+        "tooltip": "ie MMD",
+        "group": "96006dc4.d04078",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 70,
+        "y": 140,
+        "wires": [
+            [
+                "d76e47d1.0c5b"
+            ]
+        ]
+    },
+    {
+        "id": "d76e47d1.0c5b",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var model = msg.payload\nmsg.payload = {}\nmsg.payload.type = model\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 300,
+        "y": 140,
+        "wires": [
+            [
+                "839b325b.8cd358"
+            ]
+        ]
+    },
+    {
+        "id": "3196642d.ac793c",
+        "type": "ui_text_input",
+        "z": "2cccc0c0.23686",
+        "name": "Cores",
+        "label": "Number of Cores",
+        "tooltip": "",
+        "group": "96006dc4.d04078",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 70,
+        "y": 180,
+        "wires": [
+            [
+                "9b1ebbf.50924c8"
+            ]
+        ]
+    },
+    {
+        "id": "90b1f1f0.29b8d8",
+        "type": "ui_text_input",
+        "z": "2cccc0c0.23686",
+        "name": "Frequency",
+        "label": "Frequency (GHz)",
+        "tooltip": "",
+        "group": "96006dc4.d04078",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 90,
+        "y": 220,
+        "wires": [
+            [
+                "ef1ba9ce.fe873"
+            ]
+        ]
+    },
+    {
+        "id": "9b1ebbf.50924c8",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var cores = msg.payload\nmsg.payload = {}\nmsg.payload.totalCores = cores\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "839b325b.8cd358"
+            ]
+        ]
+    },
+    {
+        "id": "ef1ba9ce.fe873",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var frequency = msg.payload\nmsg.payload = {}\nmsg.payload.frequencyGHz = frequency\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 300,
+        "y": 220,
+        "wires": [
+            [
+                "839b325b.8cd358"
+            ]
+        ]
+    },
+    {
+        "id": "a18c44ba.bf22d8",
+        "type": "split",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 530,
+        "y": 120,
+        "wires": [
+            [
+                "c626664d.94bc4"
+            ]
+        ]
+    },
+    {
+        "id": "faae8f24.c9178",
+        "type": "join",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "mode": "auto",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": "false",
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "x": 550,
+        "y": 180,
+        "wires": [
+            [
+                "8f21e2d.f283da"
+            ]
+        ]
+    },
+    {
+        "id": "6e4accfc.d29da4",
+        "type": "change",
+        "z": "2cccc0c0.23686",
+        "name": "reduce data",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "msg.payload.{\"modelType\": modelType, \"cores\" : totalCores & ' at ' & frequencyGHz & ' GHz', \"rperfSMT1\": rperfSMT1, \"rperfSMT2\": rperfSMT2, \"rperfSMT4\": rperfSMT4, \"rperfSMT8\": rperfSMT8, \"CPW\": CPW }",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 810,
+        "y": 120,
+        "wires": [
+            [
+                "faae8f24.c9178"
+            ]
+        ]
+    },
+    {
+        "id": "c626664d.94bc4",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "if (typeof msg.payload.rperfSMT1 == 'undefined') {\n    msg.payload.rperfSMT1 = \" \"\n}\nif (typeof msg.payload.rperfSMT2 == 'undefined') {\n    msg.payload.rperfSMT2 = \" \"\n}\nif (typeof msg.payload.rperfSMT4 == 'undefined') {\n    msg.payload.rperfSMT4 = \" \"\n}\nif (typeof msg.payload.rperfSMT8 == 'undefined') {\n    msg.payload.rperfSMT8 = \" \"\n}\nif (typeof msg.payload.CPW == 'undefined') {\n    msg.payload.CPW = \" \"\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 660,
+        "y": 120,
+        "wires": [
+            [
+                "6e4accfc.d29da4"
+            ]
+        ]
+    },
+    {
+        "id": "b4c5ef23.659e3",
+        "type": "http request",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 590,
+        "y": 240,
+        "wires": [
+            [
+                "f139b4ad.6bcf38"
+            ]
+        ]
+    },
+    {
+        "id": "e6ec3d90.ae276",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "Set URL for SMFinder",
+        "func": "msg.payload.mtm = msg.payload.modelType\n\nvar mtm = msg.payload.mtm;\n// var host = env.get('SMFINDER_SERVICE_HOST');\nvar host = \"smfinder\";\nvar port = env.get('SMFINDER_SERVICE_PORT');\nmsg.url = \"http://\" + host + \":\" + port + \"/?mtm=\" + mtm;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 840,
+        "y": 180,
+        "wires": [
+            [
+                "b4c5ef23.659e3"
+            ]
+        ]
+    },
+    {
+        "id": "db27543a.d1e1b",
+        "type": "ui_text",
+        "z": "2cccc0c0.23686",
+        "group": "77a2ba55.5a3bb4",
+        "order": 1,
+        "width": "12",
+        "height": "1",
+        "name": "url",
+        "label": "Sales Manual",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 870,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "f139b4ad.6bcf38",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "",
+        "func": "var text = \"<a href=\" + msg.payload + \">\" + msg.payload + \"</a>\";\nmsg.payload = text;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 740,
+        "y": 240,
+        "wires": [
+            [
+                "db27543a.d1e1b"
+            ]
+        ]
+    },
+    {
+        "id": "30af4fc1.8df87",
+        "type": "function",
+        "z": "2cccc0c0.23686",
+        "name": "Set URL for backend",
+        "func": "msg.payload.mtm = msg.payload.modelType\n\nvar mtm = msg.payload.mtm;\n// var host = env.get('SMFINDER_SERVICE_HOST');\nvar host = \"perf-backend\";\nvar port = env.get('PERF-BACKEND_SERVICE_PORT');\nmsg.url = \"http://\" + host + \":\" + port;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 680,
+        "y": 60,
+        "wires": [
+            [
+                "7ba6b497.307acc"
+            ]
+        ]
+    },
+    {
+        "id": "77a2ba55.5a3bb4",
+        "type": "ui_group",
+        "name": "Output",
+        "tab": "5a8f07a7.8ab2d8",
+        "order": 3,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "96006dc4.d04078",
+        "type": "ui_group",
+        "name": "Input",
+        "tab": "5a8f07a7.8ab2d8",
+        "order": 1,
+        "disp": true,
+        "width": "12",
+        "collapse": false
+    },
+    {
+        "id": "5a8f07a7.8ab2d8",
+        "type": "ui_tab",
+        "name": "Performance Lookup",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
