@@ -396,7 +396,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "msg.payload.{\"modelType\": modelType, \"cores\" : totalCores & ' at ' & frequencyGHz & ' GHz', \"rperfSMT1\": rperfSMT1, \"rperfSMT2\": rperfSMT2, \"rperfSMT4\": rperfSMT4, \"rperfSMT8\": rperfSMT8, \"CPW\": CPW }",
+                "to": "msg.payload.{\"model\": modelType, \"name\": commonName, \"cores\" : totalCores & ' at ' & frequencyGHz & ' GHz', \"rperfSMT1\": rperfSMT1, \"rperfSMT2\": rperfSMT2, \"rperfSMT4\": rperfSMT4, \"rperfSMT8\": rperfSMT8, \"CPW\": CPW }",
                 "tot": "jsonata"
             }
         ],
@@ -457,7 +457,7 @@
         "type": "function",
         "z": "2cccc0c0.23686",
         "name": "Set URL for SMFinder",
-        "func": "msg.payload.mtm = msg.payload.modelType\nmsg.mtm = msg.payload.modelType\n\nvar mtm = msg.payload.mtm;\n// var host = env.get('SMFINDER_SERVICE_HOST');\nvar host = \"smfinder\";\nvar port = env.get('SMFINDER_SERVICE_PORT');\nmsg.url = \"http://\" + host + \":\" + port + \"/?mtm=\" + mtm;\nreturn msg;",
+        "func": "msg.payload.mtm = msg.payload.model\nmsg.mtm = msg.payload.model\nmsg.name = msg.payload.name\n\nvar mtm = msg.payload.mtm;\n// var host = env.get('SMFINDER_SERVICE_HOST');\nvar host = \"smfinder\";\nvar port = env.get('SMFINDER_SERVICE_PORT');\nmsg.url = \"http://\" + host + \":\" + port + \"/?mtm=\" + mtm;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -491,7 +491,7 @@
         "type": "function",
         "z": "2cccc0c0.23686",
         "name": "",
-        "func": "var text = \"<a href=\" + msg.payload + \" target='_blank'>\" + msg.mtm + \" Sales Manual</a>\";\nmsg.payload = text;\nreturn msg;",
+        "func": "var text = \"<a href=\" + msg.payload + \" target='_blank'>\" + msg.name + \" (\" + msg.mtm + \") Sales Manual</a>\";\nmsg.payload = text;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
