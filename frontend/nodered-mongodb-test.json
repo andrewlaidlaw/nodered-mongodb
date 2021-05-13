@@ -418,7 +418,7 @@
         "type": "function",
         "z": "2cccc0c0.23686",
         "name": "",
-        "func": "if (typeof msg.payload.rperfSMT1 == 'undefined') {\n    msg.payload.rperfSMT1 = \" \"\n}\nif (typeof msg.payload.rperfSMT2 == 'undefined') {\n    msg.payload.rperfSMT2 = \" \"\n}\nif (typeof msg.payload.rperfSMT4 == 'undefined') {\n    msg.payload.rperfSMT4 = \" \"\n}\nif (typeof msg.payload.rperfSMT8 == 'undefined') {\n    msg.payload.rperfSMT8 = \" \"\n}\nif (typeof msg.payload.CPW == 'undefined') {\n    msg.payload.CPW = \" \"\n}\nreturn msg;",
+        "func": "if (typeof msg.payload.commonName == 'undefined') {\n    msg.payload.commonName = \" \"\n}\nif (typeof msg.payload.rperfSMT1 == 'undefined') {\n    msg.payload.rperfSMT1 = \" \"\n}\nif (typeof msg.payload.rperfSMT2 == 'undefined') {\n    msg.payload.rperfSMT2 = \" \"\n}\nif (typeof msg.payload.rperfSMT4 == 'undefined') {\n    msg.payload.rperfSMT4 = \" \"\n}\nif (typeof msg.payload.rperfSMT8 == 'undefined') {\n    msg.payload.rperfSMT8 = \" \"\n}\nif (typeof msg.payload.CPW == 'undefined') {\n    msg.payload.CPW = \" \"\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
