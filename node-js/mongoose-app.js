@@ -1,8 +1,10 @@
 const express = require('express');
 const os = require("os");
 
-var mongo = require('mongodb'); 
-var MongoClient = require('mongodb').MongoClient;
+const mongoose = require("mongoose");
+
+// var mongo = require('mongodb'); 
+// var MongoClient = require('mongodb').MongoClient;
 
 // Collect database settings
 const mongoHost = process.env.database_host;
@@ -14,18 +16,28 @@ const mongoPassword = process.env.database_password;
 // Build MongoDB connection string
 var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true});
+
 const app = express();
 const port = 8080;
 const hostname = "0.0.0.0";
+
+app.get('/connect', (req, res) => {
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', function() {
+        res.send('Connected')
+        // we're connected!
+    });
+});
 
 app.get('/', (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var dbo = db.db(mongoDatabase)
-        var result = await dbo.collection("performance").findOne({}, function(err,result) {
+        dbo.collection("performance").findOne({},function(err,result) {
             if (err) throw err;
-            //console.log(result);
-            res.send(result);
+            console.log(result);
         });
         db.close();
     });
