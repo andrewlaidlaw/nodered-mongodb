@@ -29,7 +29,6 @@ app.get('/', (req, res) => {
         });
         db.close(); 
     }); */
-    console.log(req);
     res.send(req.query);
 })
 
@@ -40,7 +39,7 @@ app.get('/connect', (req, res) => {
         await client.connect();
         const database = client.db(mongoDatabase);
         const collection = database.collection("performance");
-        const result = await collection.findOne();
+        const result = await collection.find(req.query);
         res.json(result);
       } catch (e) {
         console.log("Error: " + e);
