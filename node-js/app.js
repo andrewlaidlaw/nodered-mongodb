@@ -2,7 +2,7 @@ const express = require('express');
 const os = require("os");
 
 var mongo = require('mongodb'); 
-var MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
 
 // Collect database settings
 const mongoHost = process.env.database_host;
@@ -22,15 +22,34 @@ app.get('/', (req, res) => {
     MongoClient.connect(url, function (err, db) {
         if (err) throw err;
         var dbo = db.db(mongoDatabase)
-        var result = await dbo.collection("performance").findOne({}, function(err,result) {
+        var result =  dbo.collection("performance").findOne({}, function(err,result) {
             if (err) throw err;
-            //console.log(result);
-            res.send(result);
+            console.log(result);
+            // res.send(result);
         });
         db.close();
     });
   
     res.send("done");
+})
+
+app.get('/connect', (req, res) => {
+    const client = new MongoClient(url);
+    async function run() {
+      try {
+        await client.connect();
+        const database = client.db(mongoDatabase);
+        const collection = database.collection("performance");
+
+        const result = await collection.findOne();
+        res.send(JSON.stringify(result));
+      } catch (e) {
+        console.log("Error: " + e);
+      } finally {
+        await client.close();
+      }
+    }
+    run().catch(console.dir);
 })
 
 app.get('/healthz', (req, res) => {
