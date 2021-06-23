@@ -39,7 +39,9 @@ app.get('/connect', (req, res) => {
         await client.connect();
         const database = client.db(mongoDatabase);
         const collection = database.collection("performance");
-        const result = await collection.find(req.query);
+        var queryString = JSON.stringify(req.query);
+        console.log(queryString);
+        const result = await collection.find(queryString);
         res.json(result);
       } catch (e) {
         console.log("Error: " + e);
