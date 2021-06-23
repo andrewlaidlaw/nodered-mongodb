@@ -41,7 +41,7 @@ app.get('/connect', (req, res) => {
         const collection = database.collection("performance");
         var queryString = JSON.parse(req.query);
         console.log(queryString);
-        const result = await collection.find(queryString);
+        const result = await collection.find({"model":"9117","modelType":"MMA"});
         res.json(result);
       } catch (e) {
         console.log("Error: " + e);
