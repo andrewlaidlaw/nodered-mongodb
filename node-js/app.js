@@ -39,9 +39,9 @@ app.get('/connect', (req, res) => {
         await client.connect();
         const database = client.db(mongoDatabase);
         const collection = database.collection("performance");
-        var queryString = JSON.parse(req.query);
+        var queryString = { model:"9117", modelType:"MMA" };
         console.log(queryString);
-        const result = await collection.find({"model":"9117","modelType":"MMA"});
+        const result = await collection.find(queryString);
         res.json(result);
       } catch (e) {
         console.log("Error: " + e);
