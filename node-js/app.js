@@ -41,8 +41,8 @@ app.get('/connect', (req, res) => {
         const collection = database.collection("performance");
         var queryString = req.query;
         console.log(queryString);
-        collection.find(queryString).toArray( function(error, results) {
-            if (err) throw error;
+        collection.find(queryString).toArray(function(error, results) {
+            if (error) throw error;
             console.log(results);
             res.send(results);
         });
