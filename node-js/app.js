@@ -12,7 +12,7 @@ const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
 
 // Build MongoDB connection string
-var url = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
+var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 // var url = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + "/" + mongoDatabase
 // var url = "mongodb://localhost:27017/performance"
 
