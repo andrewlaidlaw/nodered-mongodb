@@ -1,10 +1,10 @@
+// Prepare necessary pre-requisites
 const express = require('express');
 const os = require("os");
-
-var mongo = require('mongodb'); 
+// var mongo = require('mongodb'); 
 const { MongoClient } = require('mongodb');
 
-// Collect database settings
+// Collect database settings from environment variables
 const mongoHost = process.env.database_host;
 const mongoPort = process.env.database_port;
 const mongoDatabase = process.env.database_name;
@@ -12,16 +12,19 @@ const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
 
 // Build MongoDB connection string
-
+//================================
 // Used for OpenShift environment
 var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 // Used for local testing
 // var url = "mongodb://localhost:27017/performance"
+console.log("MongoDB instance is at: " + url)
 
+// Set Express.js to listen for all connections
 const app = express();
 const port = 8080;
 const hostname = "0.0.0.0";
 
+// Function to clean up the entries from a HTTP query (destringify)
 function integise(query) {
     if (query.model) query.model = parseInt(query.model);
     if (query.sockets) query.sockets = parseInt(query.sockets);
@@ -31,12 +34,13 @@ function integise(query) {
     return query;
 }
 
+// Basic response on /
 app.get('/', (req, res) => {
     res.send("ok");
 })
 
+// Searches performance collection using query modifier from HTTP query
 app.get('/findall', (req, res) => {
-    // console.log(url);
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
     async function findall(findQuery) {
@@ -62,19 +66,22 @@ app.get('/findall', (req, res) => {
     findall(req.query).catch(console.dir);
 })
 
+// Healthcheck on /healthz
 app.get('/healthz', (req, res) => {
     res.send('ok');
 })
 
+// Shows the URL of the MongoDB instance
 app.get('/url', (req, res) => {
     res.send(url);
 })
 
 app.get('/test', (req, res) => {
-    var output = "This is the value: " + JSON.stringify(req.query);
+    var output = "This is the value: " + JSON.stringify(integise(req.query));
     res.send(output);
 })
 
+// Deploy web server and log status
 app.listen(port, hostname, () => {
     console.log(`MongoDB app listening at http://${hostname}:${port}`)
 })
