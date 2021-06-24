@@ -12,7 +12,9 @@ const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
 
 // Build MongoDB connection string
-var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
+var url = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
+// var url = "mongodb+srv://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + "/" + mongoDatabase
+// var url = "mongodb://localhost:27017/performance"
 
 const app = express();
 const port = 8080;
@@ -54,6 +56,32 @@ app.get('/connect', (req, res) => {
       }
     }
     run().catch(console.dir);
+})
+
+app.get('/findall', (req, res) => {
+    // console.log(url);
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log("connection created");
+    async function findall(findQuery) {
+        var result = ""
+        try {
+            await client.connect();
+            console.log("connected");
+            const collection = client.db("performance").collection("performance");
+            console.log("collection set");
+            console.log("query is: " + JSON.stringify(findQuery));
+            result = await collection.find(findQuery).toArray();
+            console.log("search completed");
+        } finally {
+            await client.close();
+            console.log("client closed");
+        }
+        console.log("returning result:");
+        console.log(result);
+        res.send(result);
+    }
+    
+    findall(req.query).catch(console.dir);
 })
 
 app.get('/healthz', (req, res) => {
