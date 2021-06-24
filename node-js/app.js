@@ -25,7 +25,7 @@ const port = 8080;
 const hostname = "0.0.0.0";
 
 // Function to clean up the entries from a HTTP query (destringify)
-function integise(query) {
+function destringify(query) {
     if (query.model) query.model = parseInt(query.model);
     if (query.sockets) query.sockets = parseInt(query.sockets);
     if (query.coresPerSocket) query.coresPerSocket = parseInt(query.coresPerSocket);
@@ -50,7 +50,7 @@ app.get('/findall', (req, res) => {
             console.log("connected");
             const collection = client.db(mongoDatabase).collection("performance");
             console.log("collection set");
-            findQuery = integise(findQuery);
+            findQuery = destringify(findQuery);
             console.log("query is: " + JSON.stringify(findQuery));
             result = await collection.find(findQuery).toArray();
             console.log("search completed");
@@ -74,11 +74,6 @@ app.get('/healthz', (req, res) => {
 // Shows the URL of the MongoDB instance
 app.get('/url', (req, res) => {
     res.send(url);
-})
-
-app.get('/test', (req, res) => {
-    var output = "This is the value: " + JSON.stringify(integise(req.query));
-    res.send(output);
 })
 
 // Deploy web server and log status
