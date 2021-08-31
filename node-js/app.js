@@ -3,6 +3,7 @@ const express = require('express');
 const os = require("os");
 // var mongo = require('mongodb'); 
 const { MongoClient } = require('mongodb');
+const http = require('http');
 
 // Collect database settings from environment variables
 const mongoHost = process.env.database_host;
@@ -64,6 +65,82 @@ app.get('/findall', (req, res) => {
     }
     
     findall(req.query).catch(console.dir);
+})
+
+app.get('/maxrperf', (req, res) => {
+    totalCores = parseInt(req.query.totalcores);
+    var searchQuery = '';
+    if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
+    if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
+    if (req.query.totalcores) {searchQuery += 'totalCores=' + parseInt(req.query.totalcores)};
+    url = 'http://nodejs-mongodb-reader-sales-manual.09c496a0.nip.io/findall?' + searchQuery;
+    console.log(url);
+    var maxrPerf = 0.0;
+    http.get(url, (resp) => {
+        let data='';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            // console.log(data);
+            servers = JSON.parse(data);
+            servers.forEach(findhighest);
+            res.send(maxrPerf.toString());
+            console.log("Max: " + maxrPerf);
+            
+            function findhighest(server, index, array) {
+                var highestrPerf = 0;
+                if (server.rperfST) {highestrPerf = server.rperfST};
+                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+                if (highestrPerf > maxrPerf) {maxrPerf = highestrPerf};
+                console.log(highestrPerf);
+            }
+        });
+        
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
+    
+})
+
+app.get('/minrperf', (req, res) => {
+    totalCores = parseInt(req.query.totalcores);
+    var searchQuery = '';
+    if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
+    if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
+    if (req.query.totalcores) {searchQuery += 'totalCores=' + parseInt(req.query.totalcores)};
+    url = 'http://nodejs-mongodb-reader-sales-manual.09c496a0.nip.io/findall?' + searchQuery;
+    console.log(url);
+    var minrPerf = 10000.0;
+    http.get(url, (resp) => {
+        let data='';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            // console.log(data);
+            servers = JSON.parse(data);
+            servers.forEach(findhighest);
+            res.send(minrPerf.toString());
+            console.log("Min: " + minrPerf);
+            
+            function findhighest(server, index, array) {
+                var highestrPerf = 0;
+                if (server.rperfST) {highestrPerf = server.rperfST};
+                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+                if (highestrPerf < minrPerf) {minrPerf = highestrPerf};
+                console.log(highestrPerf);
+            }
+        });
+        
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
+    
 })
 
 // Healthcheck on /healthz
