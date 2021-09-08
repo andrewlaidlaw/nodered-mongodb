@@ -1,0 +1,50 @@
+openapi: '3.0.2'
+info:
+  title: IBM Power Performance Lookup
+  version: '1.0'
+servers:
+  - url: http://mongodb-lookup-sales-manual.09c496a0.nip.io/
+
+components:
+  parameters:
+    totalCores:
+      name: totalCores
+      in: query
+      required: false
+      description: Total number of installed cores in server
+      schema:
+        type: string
+    type:
+      name: type
+      in: query
+      required: false
+      description: Model designation of server (ie MMC)
+      schema:
+        type: string
+    name:
+      name: model
+      in: query
+      required: false
+      description: Machine type of server (ie 9117)
+      schema:
+        type: string
+paths:
+  /url:
+    get:
+      description: Returns URL of MongoDB instance
+      responses:
+        '200':
+          description: OK
+  /healthz:
+    get:
+      description: Healthcheck endpoint for liveness and readiness checks 
+      responses:
+        '200':
+          description: OK
+  /:
+    get:
+      description: Base for APIs - returns ok
+      responses:
+        '200':
+          description: OK
+
