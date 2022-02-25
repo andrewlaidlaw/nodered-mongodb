@@ -60,6 +60,10 @@ app.get('/findall', (req, res) => {
             console.log("client closed");
         }
         console.log("returning result:");
+        // Sort by totalCores from low to high
+        result.sort(function(a, b) {
+            return parseInt(a.totalCores) - parseFloat(b.totalCores);
+        });
         console.log(result);
         res.send(result);
     }
