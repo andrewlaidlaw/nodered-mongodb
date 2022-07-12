@@ -11,6 +11,7 @@ const mongoPort = process.env.database_port;
 const mongoDatabase = process.env.database_name;
 const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
+const mongoCollection = process.env.database_collection;
 
 // Build MongoDB connection string
 //================================
@@ -49,7 +50,7 @@ app.get('/findall', (req, res) => {
         try {
             await client.connect();
             console.log("connected");
-            const collection = client.db(mongoDatabase).collection("performance");
+            const collection = client.db(mongoDatabase).collection(mongoCollection);
             console.log("collection set");
             findQuery = destringify(findQuery);
             console.log("query is: " + JSON.stringify(findQuery));
