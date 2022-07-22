@@ -76,7 +76,7 @@ app.get('/maxrperf', (req, res) => {
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
-    url = 'http://nodejs-mongodb-reader-sales-manual.09c496a0.nip.io/findall?' + searchQuery;
+    url = 'http://localhost:8080/findall?' + searchQuery;
     console.log(url);
     var maxrPerf = 0.0;
     http.get(url, (resp) => {
@@ -113,7 +113,7 @@ app.get('/minrperf', (req, res) => {
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
-    url = 'http://nodejs-mongodb-reader-sales-manual.09c496a0.nip.io/findall?' + searchQuery;
+    url = 'http://localhost:8080/findall?' + searchQuery;
     console.log(url);
     var minrPerf = 10000.0;
     http.get(url, (resp) => {
