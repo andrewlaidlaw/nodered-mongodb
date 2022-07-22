@@ -45,17 +45,20 @@ app.get('/', (req, res) => {
 app.get('/findall', (req, res) => {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
-    findall(req.query).catch(console.dir);
+    findall(req.query, client).catch(console.dir);
 })
 
 app.get('/maxrperf', (req, res) => {
+
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
     var maxrPerf = 0.0;
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
     
-    data = findall(searchQuery);
+    data = findall(searchQuery, client);
 
     servers = JSON.parse(data);
     servers.forEach(findhighest);
@@ -78,13 +81,16 @@ app.get('/maxrperf', (req, res) => {
 })
 
 app.get('/minrperf', (req, res) => {
+
+    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
     var minrPerf = 1000000.0;
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
 
-    data = findall(searchQuery);
+    data = findall(searchQuery, client);
 
     servers = JSON.parse(data);
     servers.forEach(findhighest);
@@ -117,7 +123,7 @@ app.get('/url', (req, res) => {
     res.send(url);
 })
 
-async function findall(findQuery) {
+async function findall(findQuery, client) {
     var result = ""
     try {
         await client.connect();
