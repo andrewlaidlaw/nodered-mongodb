@@ -45,103 +45,66 @@ app.get('/', (req, res) => {
 app.get('/findall', (req, res) => {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
-    async function findall(findQuery) {
-        var result = ""
-        try {
-            await client.connect();
-            console.log("connected");
-            const collection = client.db(mongoDatabase).collection(mongoCollection);
-            console.log("collection set");
-            findQuery = destringify(findQuery);
-            console.log("query is: " + JSON.stringify(findQuery));
-            result = await collection.find(findQuery).toArray();
-            console.log("search completed");
-        } finally {
-            await client.close();
-            console.log("client closed");
-        }
-        console.log("returning result:");
-        // Sort by totalCores from low to high
-        result.sort(function(a, b) {
-            return parseInt(a.totalCores) - parseFloat(b.totalCores);
-        });
-        console.log(result);
-        res.send(result);
-    }
     findall(req.query).catch(console.dir);
 })
 
 app.get('/maxrperf', (req, res) => {
+    var maxrPerf = 0.0;
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
-    url = 'http://localhost:8080/findall?' + searchQuery;
-    console.log(url);
-    var maxrPerf = 0.0;
-    http.get(url, (resp) => {
-        let data='';
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-        resp.on('end', () => {
-            // console.log(data);
-            servers = JSON.parse(data);
-            servers.forEach(findhighest);
-            res.send(maxrPerf.toString());
-            console.log("Max: " + maxrPerf);
-            
-            function findhighest(server, index, array) {
-                var highestrPerf = 0;
-                if (server.rperfST) {highestrPerf = server.rperfST};
-                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
-                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
-                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
-                if (highestrPerf > maxrPerf) {maxrPerf = highestrPerf};
-                console.log(highestrPerf);
-            }
-        });
-        
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    });
+    
+    data = findall(searchQuery);
+
+    servers = JSON.parse(data);
+    servers.forEach(findhighest);
+    if (maxrPerf == 0.0) {
+        res.send("An error occured");
+    } else {
+        res.send(maxrPerf.toString());
+    }
+    console.log("Max: " + minrPerf);
+    
+    function findhighest(server, index, array) {
+        var highestrPerf = 0.0;
+        if (server.rperfST) {highestrPerf = server.rperfST};
+        if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+        if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+        if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+        if (highestrPerf > maxrPerf) {maxrPerf = highestrPerf};
+        console.log("Highest rPerf is: " + highestrPerf);
+    }
 })
 
 app.get('/minrperf', (req, res) => {
-    totalCores = parseInt(req.query.totalcores);
+    var minrPerf = 1000000.0;
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
-    url = 'http://localhost:8080/findall?' + searchQuery;
-    console.log(url);
-    var minrPerf = 10000.0;
-    http.get(url, (resp) => {
-        let data='';
-        resp.on('data', (chunk) => {
-            data += chunk;
-        });
-        resp.on('end', () => {
-            // console.log(data);
-            servers = JSON.parse(data);
-            servers.forEach(findhighest);
-            res.send(minrPerf.toString());
-            console.log("Min: " + minrPerf);
-            
-            function findhighest(server, index, array) {
-                var highestrPerf = 0;
-                if (server.rperfST) {highestrPerf = server.rperfST};
-                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
-                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
-                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
-                if (highestrPerf < minrPerf) {minrPerf = highestrPerf};
-                console.log(highestrPerf);
-            }
-        });
-        
-    }).on("error", (err) => {
-        console.log("Error: " + err.message);
-    });
+
+    data = findall(searchQuery);
+
+    servers = JSON.parse(data);
+    servers.forEach(findhighest);
+    if (minrPerf == 1000000.0) {
+        res.send("An error occured");
+    } else {
+        res.send(minrPerf.toString());
+    }
+    console.log("Min: " + minrPerf);
+    
+    function findhighest(server, index, array) {
+        var highestrPerf = 0.0;
+        if (server.rperfST) {highestrPerf = server.rperfST};
+        if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+        if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+        if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+        if (highestrPerf < minrPerf) {minrPerf = highestrPerf};
+        console.log("Lowest rPerf is: " + highestrPerf);
+    }
+
 })
 
 // Healthcheck on /healthz
@@ -153,6 +116,31 @@ app.get('/healthz', (req, res) => {
 app.get('/url', (req, res) => {
     res.send(url);
 })
+
+async function findall(findQuery) {
+    var result = ""
+    try {
+        await client.connect();
+        console.log("connected");
+        const collection = client.db(mongoDatabase).collection(mongoCollection);
+        console.log("collection set");
+        findQuery = destringify(findQuery);
+        console.log("query is: " + JSON.stringify(findQuery));
+        result = await collection.find(findQuery).toArray();
+        console.log("search completed");
+    } finally {
+        await client.close();
+        console.log("client closed");
+    }
+    console.log("returning result:");
+    // Sort by totalCores from low to high
+    result.sort(function(a, b) {
+        return parseInt(a.totalCores) - parseFloat(b.totalCores);
+    });
+    console.log(result);
+    res.send(result);
+}
+
 
 // Deploy web server and log status
 app.listen(port, hostname, () => {
