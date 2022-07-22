@@ -46,7 +46,7 @@ app.get('/findall', (req, res) => {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
     data = findall(req.query, client).catch(console.dir);
-    res.send(data);
+    res.send(JSON.parse(data));
 })
 
 app.get('/maxrperf', (req, res) => {
@@ -59,9 +59,8 @@ app.get('/maxrperf', (req, res) => {
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
     
-    data = findall(searchQuery, client);
+    servers = findall(searchQuery, client);
 
-    servers = JSON.parse(data);
     servers.forEach(findhighest);
     if (maxrPerf == 0.0) {
         res.send("An error occured");
@@ -91,9 +90,8 @@ app.get('/minrperf', (req, res) => {
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
 
-    data = findall(searchQuery, client);
+    servers = findall(searchQuery, client);
 
-    servers = JSON.parse(data);
     servers.forEach(findhighest);
     if (minrPerf == 1000000.0) {
         res.send("An error occured");
