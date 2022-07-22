@@ -8,17 +8,21 @@ const http = require('http');
 // Collect database settings from environment variables
 const mongoHost = process.env.database_host;
 const mongoPort = process.env.database_port;
-const mongoDatabase = process.env.database_name;
+//const mongoDatabase = process.env.database_name;
 const mongoUser = process.env.database_user;
 const mongoPassword = process.env.database_password;
-const mongoCollection = process.env.database_collection;
+//const mongoCollection = process.env.database_collection;
+
+const mongoDatabase = "performance";
+const mongoCollection = "performance";
 
 // Build MongoDB connection string
 //================================
 // Used for OpenShift environment
-var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
+// var url = "mongodb://" + mongoUser + ":" + mongoPassword + "@" + mongoHost + ":" + mongoPort + "/" + mongoDatabase
 // Used for local testing
 // var url = "mongodb://localhost:27017/performance"
+var url = "mongodb+srv://andrew:Fdpgz9Cf@cluster0.xahhl.mongodb.net/?retryWrites=true&w=majority";
 console.log("MongoDB instance is at: " + url)
 
 // Set Express.js to listen for all connections
@@ -45,71 +49,111 @@ app.get('/', (req, res) => {
 app.get('/findall', (req, res) => {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
-    data = findall(req.query, client).catch(console.dir);
-    res.send(JSON.parse(data));
+    async function findall(findQuery) {
+        var result = ""
+        try {
+            await client.connect();
+            console.log("connected");
+            const collection = client.db(mongoDatabase).collection(mongoCollection);
+            console.log("collection set");
+            findQuery = destringify(findQuery);
+            console.log("query is: " + JSON.stringify(findQuery));
+            result = await collection.find(findQuery).toArray();
+            console.log("search completed");
+        } finally {
+            await client.close();
+            console.log("client closed");
+        }
+        console.log("returning result:");
+        // Sort by totalCores from low to high
+        result.sort(function(a, b) {
+            return parseInt(a.totalCores) - parseFloat(b.totalCores);
+        });
+        console.log(result);
+        res.send(result);
+    }
+    findall(req.query).catch(console.dir);
 })
 
 app.get('/maxrperf', (req, res) => {
-
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-    var maxrPerf = 0.0;
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
-    
-    servers = findall(searchQuery, client);
+    url = 'http://performance.apps.sky.pssc.mop.fr.ibm.com/findall?' + searchQuery;
+    console.log(url);
+    var maxrPerf = 0.0;
+    http.get(url, (resp) => {
+        let data='';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            // console.log(data);
+            servers = JSON.parse(data);
+            servers.forEach(findhighest);
+            if (maxrPerf == 0.0) {
+                res.send("An error has occured");
+            } else {
+                res.send(maxrPerf.toString());
+                console.log("Max: " + maxrPerf);
+            }
 
-    servers.forEach(findhighest);
-    if (maxrPerf == 0.0) {
-        res.send("An error occured");
-    } else {
-        res.send(maxrPerf.toString());
-    }
-    console.log("Max: " + minrPerf);
-    
-    function findhighest(server, index, array) {
-        var highestrPerf = 0.0;
-        if (server.rperfST) {highestrPerf = server.rperfST};
-        if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
-        if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
-        if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
-        if (highestrPerf > maxrPerf) {maxrPerf = highestrPerf};
-        console.log("Highest rPerf is: " + highestrPerf);
-    }
+            function findhighest(server, index, array) {
+                var highestrPerf = 0;
+                if (server.rperfST) {highestrPerf = server.rperfST};
+                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+                if (highestrPerf > maxrPerf) {maxrPerf = highestrPerf};
+                console.log(highestrPerf);
+            }
+        });
+        
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
 })
 
 app.get('/minrperf', (req, res) => {
-
-    const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-    var minrPerf = 1000000.0;
+    totalCores = parseInt(req.query.totalcores);
     var searchQuery = '';
     if (req.query.model) {searchQuery += 'model=' + req.query.model + '&'};
     if (req.query.type) {searchQuery += 'type=' + req.query.type + '&'};
     if (req.query.totalCores) {searchQuery += 'totalCores=' + parseInt(req.query.totalCores)};
+    url = 'http://performance.apps.sky.pssc.mop.fr.ibm.com/findall?' + searchQuery;
+    console.log(url);
+    var minrPerf = 1000000.0;
+    http.get(url, (resp) => {
+        let data='';
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+        resp.on('end', () => {
+            // console.log(data);
+            servers = JSON.parse(data);
+            servers.forEach(findlowest);
+            if (minrPerf == 1000000.0) {
+                res.send("An error has occured");
+            } else {
+                res.send(minrPerf.toString());
+                console.log("Min: " + minrPerf);
+            }
 
-    servers = findall(searchQuery, client);
-
-    servers.forEach(findhighest);
-    if (minrPerf == 1000000.0) {
-        res.send("An error occured");
-    } else {
-        res.send(minrPerf.toString());
-    }
-    console.log("Min: " + minrPerf);
-    
-    function findhighest(server, index, array) {
-        var highestrPerf = 0.0;
-        if (server.rperfST) {highestrPerf = server.rperfST};
-        if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
-        if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
-        if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
-        if (highestrPerf < minrPerf) {minrPerf = highestrPerf};
-        console.log("Lowest rPerf is: " + highestrPerf);
-    }
-
+            function findlowest(server, index, array) {
+                var highestrPerf = 0;
+                if (server.rperfST) {highestrPerf = server.rperfST};
+                if (server.rperfSMT2) {highestrPerf = server.rperfSMT2};
+                if (server.rperfSMT4) {highestrPerf = server.rperfSMT4};
+                if (server.rperfSMT8) {highestrPerf = server.rperfSMT8};
+                if (highestrPerf < minrPerf) {minrPerf = highestrPerf};
+                console.log(highestrPerf);
+            }
+        });
+        
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
 })
 
 // Healthcheck on /healthz
@@ -121,32 +165,6 @@ app.get('/healthz', (req, res) => {
 app.get('/url', (req, res) => {
     res.send(url);
 })
-
-// FUNCTIONS
-
-// Primary function to look up values in MongoDB database
-async function findall(findQuery, client) {
-    var result = ""
-    try {
-        await client.connect();
-        console.log("connected");
-        const collection = client.db(mongoDatabase).collection(mongoCollection);
-        console.log("collection set");
-        findQuery = destringify(findQuery);
-        console.log("query is: " + JSON.stringify(findQuery));
-        result = await collection.find(findQuery).toArray();
-        console.log("search completed");
-    } finally {
-        await client.close();
-        console.log("client closed");
-    }
-    result.sort(function(a, b) {
-        return parseInt(a.totalCores) - parseFloat(b.totalCores);
-    });
-    console.log("Result is: " + result);
-    return result;
-}
-
 
 // Deploy web server and log status
 app.listen(port, hostname, () => {
