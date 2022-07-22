@@ -45,7 +45,8 @@ app.get('/', (req, res) => {
 app.get('/findall', (req, res) => {
     const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("connection created");
-    findall(req.query, client).catch(console.dir);
+    data = findall(req.query, client).catch(console.dir);
+    res.send(data);
 })
 
 app.get('/maxrperf', (req, res) => {
@@ -123,6 +124,9 @@ app.get('/url', (req, res) => {
     res.send(url);
 })
 
+// FUNCTIONS
+
+// Primary function to look up values in MongoDB database
 async function findall(findQuery, client) {
     var result = ""
     try {
@@ -138,13 +142,11 @@ async function findall(findQuery, client) {
         await client.close();
         console.log("client closed");
     }
-    console.log("returning result:");
-    // Sort by totalCores from low to high
     result.sort(function(a, b) {
         return parseInt(a.totalCores) - parseFloat(b.totalCores);
     });
-    console.log(result);
-    res.send(result);
+    console.log("Result is: " + result);
+    return result;
 }
 
 
